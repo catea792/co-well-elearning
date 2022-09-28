@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Chapter;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\AnyRequest;
 
 class ChapterController extends Controller
 {
+
+
     public function create($course_id){
 
         return view('admin.chapters.create',[
@@ -18,7 +21,7 @@ class ChapterController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(AnyRequest $request){
         $data = $request->all();
         Chapter::create($data);
 

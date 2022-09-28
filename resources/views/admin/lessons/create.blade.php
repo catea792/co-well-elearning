@@ -26,14 +26,21 @@
 
                             <div class="mb-3">
                                 <label>Tên bài học</label>
-                                <input type="text" class="form-control"
+                                <input type="text" class="form-control  @error('name') is-invalid @enderror"
                                     name="name">
+                                    @error('name')
+                                            <div class="invalid-feedback invalid-font-size">{{ $message }}</div>
+                                    @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label>Nội dung</label>
-                                <input type="text" class="form-control"
+                                <input type="text" class="form-control  @error('content') is-invalid @enderror"
                                     name="content">
+                                    @error('content')
+                                            <div class="invalid-feedback invalid-font-size">{{ $message }}</div>
+                                    @enderror
+
                             </div>
 
                             <div class="col-md-12">

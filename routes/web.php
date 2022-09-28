@@ -40,11 +40,11 @@ Auth::routes();
 
 Route::post('login', 'App\Http\Controllers\Auth\LoginController@login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('role.admin')->name('home');
 
 Route::prefix("admin")->middleware("auth")->group(function () {
     //classroom
-    Route::prefix("classroom")->name("classroom.")->middleware('role.admin')->group(function () {
+    Route::prefix("classroom")->name("classroom.")->middleware(['role:admin|manager_classroom'])->group(function () {
         Route::get('/', [ClassroomController::class, 'index'])
             ->name('index');
 
@@ -88,57 +88,57 @@ Route::prefix("admin")->middleware("auth")->group(function () {
     });
     //course
     Route::prefix("course")->name("course.")->group(function () {
-        Route::get('/create', [App\Http\Controllers\Admin\CourseController::class, 'create'])->middleware('role.admin')
+        Route::get('/create', [App\Http\Controllers\Admin\CourseController::class, 'create'])
             ->name("create");
 
-        Route::post('/create', [App\Http\Controllers\Admin\CourseController::class, 'store'])->middleware('role.admin')
+        Route::post('/create', [App\Http\Controllers\Admin\CourseController::class, 'store'])
             ->name("store");
 
-        Route::get('/update/{id}', [App\Http\Controllers\Admin\CourseController::class, 'edit'])->middleware('role.admin')
+        Route::get('/update/{id}', [App\Http\Controllers\Admin\CourseController::class, 'edit'])
             ->name("edit");
 
-        Route::put('/update/{id}', [App\Http\Controllers\Admin\CourseController::class, 'update'])->middleware('role.admin')
+        Route::put('/update/{id}', [App\Http\Controllers\Admin\CourseController::class, 'update'])
             ->name("update");
 
-        Route::delete('/delete/{id}', [App\Http\Controllers\Admin\CourseController::class, 'delete'])->middleware('role.admin')
+        Route::delete('/delete/{id}', [App\Http\Controllers\Admin\CourseController::class, 'delete'])
             ->name("delete");
 
-        Route::get('/', [App\Http\Controllers\Admin\CourseController::class, 'index'])->middleware('role.admin')
+        Route::get('/', [App\Http\Controllers\Admin\CourseController::class, 'index'])
             ->name('index');
 
-        Route::get('/show/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'show'])->middleware('role.admin')
+        Route::get('/show/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'show'])
             ->name('show');
 
         Route::get('/view/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'view'])->name('view');
 
-        Route::get('/search',  [App\Http\Controllers\Admin\CourseController::class, 'search'])->middleware('role.admin')->name('search');
+        Route::get('/search',  [App\Http\Controllers\Admin\CourseController::class, 'search'])->name('search');
 
-        Route::get('/add_student/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'view_add_student'])->middleware('role.admin')
+        Route::get('/add_student/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'view_add_student'])
             ->name('view_add_student');
 
-        Route::get('/add_student/{id}/{id_student}',  [App\Http\Controllers\Admin\CourseController::class, 'add_student'])->middleware('role.admin')
+        Route::get('/add_student/{id}/{id_student}',  [App\Http\Controllers\Admin\CourseController::class, 'add_student'])
             ->name('add_student');
 
-        Route::get('/remove_student/{id_course}/{id_student}',  [App\Http\Controllers\Admin\CourseController::class, 'remove_student'])->middleware('role.admin')
+        Route::get('/remove_student/{id_course}/{id_student}',  [App\Http\Controllers\Admin\CourseController::class, 'remove_student'])
             ->name('remove.student');
 
-        Route::get('/add_test/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'view_add_test'])->middleware('role.admin')
+        Route::get('/add_test/{id}',  [App\Http\Controllers\Admin\CourseController::class, 'view_add_test'])
             ->name('view_add_test');
 
-        Route::get('/add_test/{id}/{id_test}',  [App\Http\Controllers\Admin\CourseController::class, 'add_test'])->middleware('role.admin')
+        Route::get('/add_test/{id}/{id_test}',  [App\Http\Controllers\Admin\CourseController::class, 'add_test'])
             ->name('add_test');
-        Route::get('/remove_test/{id_course}/{id_test}',  [App\Http\Controllers\Admin\CourseController::class, 'remove_test'])->middleware('role.admin')
+        Route::get('/remove_test/{id_course}/{id_test}',  [App\Http\Controllers\Admin\CourseController::class, 'remove_test'])
             ->name('remove.test');
     });
     //chapter
     Route::prefix("chapter")->name("chapter.")->group(function () {
-        Route::get('/create/{course_id}', [App\Http\Controllers\Admin\ChapterController::class, 'create'])->middleware('role.admin')
+        Route::get('/create/{course_id}', [App\Http\Controllers\Admin\ChapterController::class, 'create'])
             ->name("create");
 
-        Route::post('/create', [App\Http\Controllers\Admin\ChapterController::class, 'store'])->middleware('role.admin')
+        Route::post('/create', [App\Http\Controllers\Admin\ChapterController::class, 'store'])
             ->name("store");
 
-        Route::get('/', [App\Http\Controllers\Admin\ChapterController::class, 'index'])->middleware('role.admin')
+        Route::get('/', [App\Http\Controllers\Admin\ChapterController::class, 'index'])
             ->name('index');
 
         Route::get('/show/{id}',  [App\Http\Controllers\Admin\ChapterController::class, 'show'])
@@ -192,7 +192,7 @@ Route::prefix("admin")->middleware("auth")->group(function () {
 
     });
     //question
-    Route::prefix("question")->name("question.")->middleware('role.admin')->group(function () {
+    Route::prefix("question")->name("question.")->group(function () {
         Route::get('/',  "App\Http\Controllers\Admin\QuestionController@index")
             ->name('index');
 
@@ -236,7 +236,7 @@ Route::prefix("admin")->middleware("auth")->group(function () {
     });
 
     //test
-    Route::prefix("testmanager")->name("testmanager.")->middleware('role.admin')->group(function () {
+    Route::prefix("testmanager")->name("testmanager.")->group(function () {
         Route::get('/',  "App\Http\Controllers\Admin\TestController@index")
             ->name('index');
 
@@ -308,5 +308,20 @@ Route::prefix("admin")->middleware("auth")->group(function () {
             ->name("history");
     });
 
+    Route::prefix("role")->name("role.")->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'index'])
+            ->name("index");
+        Route::get('/author/{id}', [App\Http\Controllers\Admin\UserController::class, 'author'])
+            ->name("author");
+        Route::put('/insert/{id}', [App\Http\Controllers\Admin\UserController::class, 'insert'])
+            ->name("insert");
+        Route::get('/permiss/{id}', [App\Http\Controllers\Admin\UserController::class, 'permiss'])
+            ->name("permiss");
+        Route::put('/permiss/{id}', [App\Http\Controllers\Admin\UserController::class, 'give_permiss'])
+            ->name("give_permiss");
+
+
+
+    });
 });
 Route::get('sendEmail/{id}', [StudentController::class, 'sendEmail'])->name('sendEmail');

@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-use App\Http\Requests\StudentRequest;
+use App\Http\Requests\UpdateRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -22,21 +22,7 @@ class ProfileController extends Controller
         return view('profile.change_passwd');
     }
     public function update_password(UpdatePassword $request){
-        // $request->validate([
-        //     'old_password' => ['required','min:6'],
-        //     'new_password' => 'required|min:6',
-        //     'confirm_password' => 'min:6|required_with:new_password|same:new_password',
-        // ]);
-       /* $current_user = auth()->user();
-        if (Hash::check($request->old_password,$current_user->password)){
-            $current_user->update([
-                'password'=>bcrypt($request->new_password)
-            ]);
-            return redirect()->back()->with('success','Password successfully changed');
-        }
-        else{
-            return redirect()->back()->with('error','old password does not matched.');
-        }*/
+
         $password = Hash::make($request->new_password);
         User::find(auth()->user()->id)->update([
 
@@ -48,6 +34,8 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $student = User::find($id);
+
+
         return view("profile.edit", compact('student'));
     }
     /**
@@ -57,17 +45,18 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StudentRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $password = Hash::make($request->password);
-        User::find($id)->update([
+
+        User::find( $id)->update([
             'name' => $request->name,
             'phone' => $request->phone,
             // 'email' => $request->email,
-            'password' => $password,
+            //'password' => $password,
             'address' => $request->address,
         ]);
-        return redirect()->route('student.index');
+
+        return view("profile.profile");
     }
 
 }

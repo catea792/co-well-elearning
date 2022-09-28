@@ -18,11 +18,16 @@ use Illuminate\Support\Facades\Mail;
 class CourseController extends Controller
 {
 
+    public function __construct()
+{
+    $this->middleware(['role_or_permission:admin|manager|permission:course manager'],['only' => [' index','create','store','edit','update','delete','search','show']]);
+    //$this->middleware(['role_or_permission:admin|manager_classroom|permission:course manager']);
+}
 
 
     public function index()
     {
-        $courses = Course::Where("status", 1)->latest()->paginate(10);
+        $courses = Course::Where("status", 1)->orderBy('id','asc')->latest()->paginate(5);
         return view('admin.courses.index', compact('courses'));
     }
 

@@ -7,6 +7,11 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Session;
+
 
 class LoginController extends Controller
 {
@@ -40,18 +45,37 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login (Request $request) {
-        
-        Auth::attempt($request->only('email', 'password'));
+    public function login (LoginRequest $request) {
 
-        switch (Auth::user()->role_id) {
-            case 1:
-                return redirect()->route('main.home');
-            case 2:
-            case 3:
-                return redirect()->route('home');
-            default:
-                return redirect()->route('main.home');
+
+
+        if (Auth::attempt($request->only('email', 'password'))){
+
+
+        //dd(auth()->user());
+
+
+        // switch (Auth::user()->role_id) {
+        //    case 1:
+        //        return redirect()->route('main.home');
+        //    case 2:
+        //    case 3:
+        //        return redirect()->route('home');
+        //     default:
+        //        return redirect()->route('main.home');
+        //  }
+         if(auth()->user()->hasAnyRole(['admin', 'manager', 'manager_classroom','test manager'])){
+
+            return redirect()->route('home')->with('success', 'Đăng nhập thành công');;
+
+         }
+         else{
+             return redirect()->route('main.home')->with('success', 'Đăng nhập thành công');;
+         }
+        } else{
+
+        return redirect()->route('login')->with('error','mật khẩu hoặc email không chính xác');
         }
+
     }
 }

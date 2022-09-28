@@ -1,6 +1,7 @@
 {{-- @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -50,6 +51,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
@@ -115,6 +117,11 @@
                         </span>
                     @enderror
 	            </div>
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                    {{ session('error') }}
+                    </div>
+                @endif
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
 	            </div>
@@ -129,16 +136,20 @@
 									<a href="#" style="color: #fff">Forgot Password</a>
 								</div>
 	            </div>
+
 	          </form>
 	          {{-- <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p> --}}
 	          <div class="social d-flex text-center">
 	          	<a href="{{route('register')}}" class="px-2 py-2 mr-md-1 rounded"><span class="mr-2"></span> Register</a>
+
 	          </div>
 		      </div>
 				</div>
+
 			</div>
 		</div>
 	</section>
+
 
 	</body>
 </html>

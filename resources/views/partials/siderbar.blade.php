@@ -30,8 +30,31 @@
                 </div>
             </div>
         </div>
-        @if (Auth::user()->role_id == 3)
+
+        <!-- phan quyen -->
+
+        @role('admin')
+
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="{{ route('role.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Phân Quyền
+
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        @endrole
+
         <!-- student -->
+        @can('student manager')
+
+
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -39,15 +62,17 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Học viên
-                            
+
                         </p>
                     </a>
                 </li>
             </ul>
         </nav>
-        @endif
+        @endcan
+
 
         {{-- menu --}}
+        @can('course manager')
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -60,8 +85,10 @@
                 </li>
             </ul>
         </nav>
+        @endcan
 
         {{-- product --}}
+        @can('classroom manager')
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -74,8 +101,10 @@
                 </li>
             </ul>
         </nav>
+        @endcan
 
         {{-- Test --}}
+        @can('test manager')
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -101,6 +130,7 @@
                 </li>
             </ul>
         </nav>
+        @endcan
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">

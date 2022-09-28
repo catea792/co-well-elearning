@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UpdatePassword extends FormRequest
 {
@@ -23,11 +25,21 @@ class UpdatePassword extends FormRequest
      */
     public function rules()
     {
-        return [
-            'old_password' => 'required',
-            'new_password' => 'required|min:8',
-            'confirm_password' => 'required|min:8|required_with:new_password|same:new_password',
+        $user = auth()->user();
+        $valid = [
+            'old_password' => [
+                'required',
+
+                function ($attribute, $value, $fail) use ($user) {
+                    if (!Hash::check($value, $user->password)) {
+                        $fail('Mật khẩu cũ không chính xác.');
+                    }
+                }
+            ],
+            'new_password' => 'bail|required|min:8|different:old_password',
+            'confirm_password' => 'bail|required|min:8|required_with:new_password|same:new_password',
         ];
+        return $valid;
     }
 
     public function messages()

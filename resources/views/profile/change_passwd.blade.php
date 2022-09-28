@@ -6,7 +6,7 @@
             font-size: 100%;
         }
     </style>
-@endsection 
+@endsection
 
 @section('change_password')
     <link rel="stylesheet" href="/css/controll.css" type="text/css" media="all">
@@ -45,23 +45,13 @@
                             <div class="col-md-12">
                                 <form action="{{route('profile.update_password')}}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    {{-- @if(session('error'))
-                                        <div class="alert alert-danger">
-                                            {{session('error')}}
-                                        </div>
-                                    @endif
-                                    @if(session('success'))
-                                        <div class="alert alert-success">
-                                            {{session('success')}}
-                                        </div>
-                                    @endif --}}
                                     <div class="input-group form-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                                         </div>
-                                        <input type="password" class="form-control" placeholder="Mật khẩu cũ" name="old_password">
-                                        <span style="color: red">@error('old_password'){{$message}}@enderror</span>
-                                        @error('address')
+                                        <input type="password" class="form-control @error('old_password') is-invalid @enderror" placeholder="Mật khẩu cũ" name="old_password">
+
+                                        @error('old_password')
                                             <div class="invalid-feedback invalid-font-size">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -69,8 +59,8 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                                         </div>
-                                        <input type="password" class="form-control" placeholder="Mật khẩu mới" name="new_password">
-                                        <span style="color: red">@error('new_password'){{$message}}@enderror</span>
+                                        <input type="password" class="form-control @error('new_password') is-invalid @enderror" placeholder="Mật khẩu mới" name="new_password">
+
                                         @error('new_password')
                                             <div class="invalid-feedback invalid-font-size">{{ $message }}</div>
                                         @enderror
@@ -79,8 +69,8 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                                         </div>
-                                        <input type="password" class="form-control" placeholder="Xác nhận mật khẩu" name="confirm_password">
-                                        <span style="color: red">@error('confirm_password'){{$message}}@enderror</span>
+                                        <input type="password" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Xác nhận mật khẩu" name="confirm_password">
+
                                         @error('confirm_password')
                                             <div class="invalid-feedback invalid-font-size">{{ $message }}</div>
                                         @enderror

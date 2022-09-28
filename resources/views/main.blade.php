@@ -22,6 +22,17 @@
 
     <title>CO-WELL E-learning</title>
 </head>
+@if (session('error'))
+    <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+    </div>
+@endif
+
+@if (session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="header">
     <div class="header header-top" >
         <div class="logo">

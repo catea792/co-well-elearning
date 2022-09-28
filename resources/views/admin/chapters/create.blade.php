@@ -27,6 +27,9 @@
                                 <label>Tên chương của khóa học</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                     name="name">
+                                    @error('name')
+                                            <div class="invalid-feedback invalid-font-size">{{ $message }}</div>
+                                    @enderror
                             </div>
 
                             <div class="col-md-12">

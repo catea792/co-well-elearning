@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,12 +28,6 @@ class StudentRequest extends FormRequest
             'phone' => 'bail|required|digits:10',
             'address' => 'bail|required',
         ];
-
-        if('student.update' != $this->route()->getName())
-        {
-            $valid['email'] = 'required|unique:users,email|email';
-            $valid['password'] = 'required|min:8';
-        }
 
         return $valid;
     }

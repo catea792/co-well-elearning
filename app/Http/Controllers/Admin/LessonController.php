@@ -10,15 +10,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AnyRequest;
 
 
 class LessonController extends Controller
 {
+
     public function create($chapter_id){
         return view('admin.lessons.create',['chapter_id' =>$chapter_id]);
     }
 
-    public function store(Request $request){
+    public function store(AnyRequest $request){
 
         $data1 = $request->all();
         Lesson::create($data1);
